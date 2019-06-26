@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Dashboard - <?= $this->session->userdata('tipe') == 1 ? 'Admin' : 'Kasir'; ?> Fremilt</title>
+  <title>Manajemen Kasir - <?= $this->session->userdata('tipe') == 1 ? 'Admin' : 'Kasir'; ?> Fremilt</title>
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="<?= base_url(); ?>assets/modules/bootstrap/css/bootstrap.min.css">
@@ -56,38 +56,26 @@
       <div class="main-content">
         <section class="section">
           <div class="section-header">
-            <h1>Dashboard</h1>
+            <h1>Manajemen Kasir</h1>
           </div>
 
           <div class="section-body">
-            <h2 class="section-title">Selamat Datang</h2>
+            <h2 class="section-title">Manajemen Kasir</h2>
             <p class="section-lead">
-              Selamat datang di halaman admin.
+              Silahkan menambahkan, mengedit, atau menghapus daftar kasir.
             </p>
 
             <div class="row">
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>Grafik Penjualan</h4>
+                    <h4>Manajemen Kasir</h4>
                     <div class="card-header-action">
-                      <a href="#hari-ini" data-tab="summary-tab" class="btn active">Hari Ini</a>
-                      <a href="#bulan-ini" data-tab="summary-tab" class="btn">Bulan Ini</a>
+                      <a href="#" class="btn active">Tambah Kasir</a>
                     </div>
                   </div>
                   <div class="card-body">
-                    Tanggal: <?= date("Y-m-d H:i:s"); ?><br>
-                    Terjual Hari Ini: 530 Item<br>
-                    Terjual Bulan Ini: 10.123 Item
-                    <hr>
-                    <div class="summary">
-                      <div data-tab-group="summary-tab" id="hari-ini" class="active">
-                        <canvas id="chart-hari" height="50"></canvas>
-                      </div>
-                      <div data-tab-group="summary-tab" id="bulan-ini">
-                        <canvas id="chart-bulan" height="50"></canvas>
-                      </div>
-                    </div>
+                    Manajemen Kasir
                   </div>
                 </div>
               </div>

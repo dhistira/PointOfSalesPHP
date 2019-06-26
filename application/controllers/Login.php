@@ -15,7 +15,7 @@ class Login extends CI_Controller{
     $validate = $this->login_model->validate($username,$password);
     if($validate->num_rows() > 0){
         $data  = $validate->row_array();
-        $name  = $data['username'];
+        $name  = $data['fullname'];
         $username = $data['username'];
         $tipe = $data['tipe'];
         $sesdata = array(
@@ -29,9 +29,9 @@ class Login extends CI_Controller{
         if($tipe === '1'){
             redirect('page');
 
-        // access login for staff
+        // access login for kasir
         }elseif($tipe === '2'){
-            redirect('page/staff');
+            redirect('page');
 
         // access login for others
         }else{

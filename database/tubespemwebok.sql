@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 19, 2019 at 10:09 PM
+-- Generation Time: Jun 21, 2019 at 08:33 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -33,7 +33,15 @@ CREATE TABLE IF NOT EXISTS `fakultas` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `nama` varchar(144) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fakultas`
+--
+
+INSERT INTO `fakultas` (`id`, `nama`) VALUES
+(1, 'Fakultas MIPA'),
+(2, 'Fakultas Kedokteran');
 
 -- --------------------------------------------------------
 
@@ -56,7 +64,14 @@ CREATE TABLE IF NOT EXISTS `fasilitas` (
   KEY `id_statusInfrastruktur` (`id_statusInfrastruktur`),
   KEY `id_fakultas` (`id_fakultas`),
   KEY `id_jurusan` (`id_jurusan`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fasilitas`
+--
+
+INSERT INTO `fasilitas` (`id`, `id_jenisInfrastruktur`, `id_statusInfrastruktur`, `id_fakultas`, `id_jurusan`, `lat`, `lon`, `foto`) VALUES
+(1, 1, 1, NULL, NULL, '-7.558443478798121', '110.85456252803351', NULL);
 
 -- --------------------------------------------------------
 
@@ -69,7 +84,15 @@ CREATE TABLE IF NOT EXISTS `jenis_infrastruktur` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `nama` varchar(144) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jenis_infrastruktur`
+--
+
+INSERT INTO `jenis_infrastruktur` (`id`, `nama`) VALUES
+(1, 'halte'),
+(2, 'kursi');
 
 -- --------------------------------------------------------
 
@@ -80,9 +103,18 @@ CREATE TABLE IF NOT EXISTS `jenis_infrastruktur` (
 DROP TABLE IF EXISTS `jurusan`;
 CREATE TABLE IF NOT EXISTS `jurusan` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
+  `id_fakultas` int(3) NOT NULL,
   `nama` varchar(144) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  KEY `id_fakultas` (`id_fakultas`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jurusan`
+--
+
+INSERT INTO `jurusan` (`id`, `id_fakultas`, `nama`) VALUES
+(1, 1, 'Informatika');
 
 -- --------------------------------------------------------
 
@@ -145,6 +177,7 @@ CREATE TABLE IF NOT EXISTS `laporan_pelayanan` (
   `id_staffPelayanan` int(144) NOT NULL,
   `datetime_pelayanan` varchar(144) NOT NULL,
   `nilai` int(2) NOT NULL,
+  `keterangan` text,
   `date_created` date NOT NULL,
   `date_modified` date NOT NULL,
   `id_statusPelayanan` int(4) NOT NULL,
@@ -172,7 +205,14 @@ CREATE TABLE IF NOT EXISTS `mahasiswa` (
   PRIMARY KEY (`id`),
   KEY `id_fakultas` (`id_fakultas`),
   KEY `id_jurusan` (`id_jurusan`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `mahasiswa`
+--
+
+INSERT INTO `mahasiswa` (`id`, `nim`, `fullname`, `birth_date`, `id_fakultas`, `id_jurusan`, `angkatan`) VALUES
+(1, 'M0517053', 'Yudhistira Bayu Wryatsongko', '1999-09-16', 1, 1, 2017);
 
 -- --------------------------------------------------------
 
@@ -205,7 +245,18 @@ CREATE TABLE IF NOT EXISTS `status_infrastruktur` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `nama` varchar(144) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `status_infrastruktur`
+--
+
+INSERT INTO `status_infrastruktur` (`id`, `nama`) VALUES
+(1, 'Baik'),
+(2, 'Perlu Perbaikan'),
+(3, 'Rusak'),
+(4, 'Rusak Parah'),
+(5, 'Tidak Dapat Digunakan');
 
 -- --------------------------------------------------------
 
@@ -257,7 +308,15 @@ CREATE TABLE IF NOT EXISTS `tipe_user` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `nama` varchar(144) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tipe_user`
+--
+
+INSERT INTO `tipe_user` (`id`, `nama`) VALUES
+(1, 'Mahasiswa'),
+(2, 'Staff Pelayanan');
 
 -- --------------------------------------------------------
 
@@ -277,7 +336,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   `status` int(3) NOT NULL COMMENT '0 non aktif, 1 aktif, 2 suspend',
   PRIMARY KEY (`id`),
   KEY `tipe` (`tipe`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `tipe`, `id_terkait`, `username`, `password`, `date_created`, `date_modified`, `status`) VALUES
+(1, 1, 1, 'dhistira', '46f94c8de14fb36680850768ff1b7f2a', '2019-06-18', '2019-06-19', 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

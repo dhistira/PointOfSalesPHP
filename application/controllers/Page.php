@@ -16,28 +16,57 @@ class Page extends CI_Controller{
 
   }
 
-  function laporkan_kerusakan(){
+  function manajemen_menu(){
       if($this->session->userdata('tipe')==='1'){
-          $this->load->view('laporkan_kerusakan');
+          $this->load->view('manajemen_menu');
       }else{
           echo "Access Denied";
       }
 
   }
 
-  function nilai_pelayanan(){
+  function manajemen_kasir(){
       if($this->session->userdata('tipe')==='1'){
-          $this->load->view('nilai_pelayanan');
+          $this->load->view('manajemen_kasir');
       }else{
           echo "Access Denied";
       }
+
   }
 
-  function laporkan_kejahatan(){
-    if($this->session->userdata('tipe')==='1'){
-      $this->load->view('laporkan_kejahatan');
-    } else {
-      echo 'Access Denied';
+  function absensi_kasir(){
+      if($this->session->userdata('tipe')==='1'){
+          $this->load->view('absensi_kasir');
+      }else{
+          echo "Access Denied";
+      }
+
+  }
+
+  function tambah_menu(){
+      if($this->session->userdata('tipe')==='1'){
+          $this->load->view('tambah_menu');
+      }else{
+          echo "Access Denied";
+      }
+
+  }
+
+  function action_tambah_menu(){
+    if(!empty($this->input->post('namaitem')) && !empty($this->input->post('detailitem')) && !empty($this->input->post('hargaitem'))){
+      
+      $a = $this->db->insert('menu',
+        array(
+          'nama_item' => $this->input->post('namaitem'),
+          'detail_item' => $this->input->post('detailitem'),
+          'harga_item' => $this->input->post('hargaitem')
+        ));
+
+      if($a){
+        redirect(base_url().'page/manajemen-menu?s=true');
+      } else {
+        redirect(base_url().'page/tambah_menu?s=false');
+      }
     }
   }
 
