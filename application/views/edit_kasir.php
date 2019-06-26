@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Tambah Menu - <?= $this->session->userdata('tipe') == 1 ? 'Admin' : 'Kasir'; ?> Fremilt</title>
+  <title>Edit Kasir - <?= $this->session->userdata('tipe') == 1 ? 'Admin' : 'Kasir'; ?> Fremilt</title>
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="<?= base_url(); ?>assets/modules/bootstrap/css/bootstrap.min.css">
@@ -49,43 +49,45 @@
       <div class="main-content">
         <section class="section">
           <div class="section-header">
-            <h1>Tambah Menu</h1>
+            <h1>Edit Kasir</h1>
           </div>
 
           <div class="section-body">
-            <h2 class="section-title">Tambah Menu</h2>
+            <h2 class="section-title">Edit Kasir</h2>
             <p class="section-lead">
-              Silahkan menambahkan, mengedit, atau menghapus daftar menu.
+              Edit Kasir.
             </p>
 
             <div class="row">
               <div class="col-6">
                 <div class="card">
                   <div class="card-header">
-                    <h4>Tambah Menu</h4>
+                    <h4>Edit Kasir</h4>
                     <div class="card-header-action">
-                      <a href="<?= base_url(); ?>page/manajemen-menu" class="btn active">Kembali</a>
+                      <a href="<?= base_url(); ?>page/manajemen-kasir" class="btn active">Kembali</a>
                     </div>
                   </div>
                   <div class="card-body">
+                  <?php foreach($data as $b){?>
                     <?= isset($_GET['s']) == 'false' ? '<div class="alert alert-danger">Oops! Terjadi error!</div>' : '';?>
-                    <form method="post" action="<?= base_url(); ?>page/action_tambah_menu">
+                    <form method="post" action="<?= base_url(); ?>page/action_edit_kasir/<?= $b->id ?>">
                       <div class="form-group">
-                        <label>Nama Item</label>
-                        <input type="text" name="namaitem" placeholder="Max 24 Karakter" class="form-control">
+                        <label>Nama Kasir</label>
+                        <input type="text" name="namakasir" placeholder="Masukan Nama Kasir" class="form-control" value="<?= $b->fullname;?>">
                       </div>
                       <div class="form-group">
-                        <label>Detail Item (64 karakter)</label>
-                        <input type="text" name="detailitem" placeholder="Max 64 Karakter" class="form-control">
+                        <label>Username</label>
+                        <input type="text" name="usernamekasir" placeholder="Masukan Username Kasir" class="form-control" value="<?= $b->username;?>">
                       </div>
                       <div class="form-group">
-                        <label>Harga Item</label>
-                        <input type="text" name="hargaitem" placeholder="Misal: 50000" class="form-control">
+                        <label>Password</label>
+                        <input type="password" name="passwordkasir" placeholder="kosongkan bila tidak diisi" class="form-control">
                       </div>
                       <div class="form-group">
                         <button type="submit" style="float:right" class="btn btn-danger">Kirim</button>
                       </div>
                     </form>
+                  <?php } ?>
                   </div>
                 </div>
               </div>

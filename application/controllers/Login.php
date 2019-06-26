@@ -18,7 +18,9 @@ class Login extends CI_Controller{
         $name  = $data['fullname'];
         $username = $data['username'];
         $tipe = $data['tipe'];
+        $id = $data['id'];
         $sesdata = array(
+            'id' => $id,
             'fullname'  => $name,
             'username'     => $username,
             'tipe'     => $tipe,
@@ -31,6 +33,12 @@ class Login extends CI_Controller{
 
         // access login for kasir
         }elseif($tipe === '2'){
+          $a = $this->db->insert('user_log',
+            array(
+              'id_user' => $data['id'],
+              'date_login' => date("Y-m-d h:i:s")
+            ));
+
             redirect('page');
 
         // access login for others
@@ -44,6 +52,15 @@ class Login extends CI_Controller{
   }
 
   function logout(){
+    if($this->session->userdata('tipe') == '2'){
+      $this->db->where(array(
+        'id' => $this->session->userdata('id'),
+        'date_logout' => NULL));
+      $this->db->update('user_log',
+          array(
+            'date_logout' => date("Y-m-d h:i:s")
+          ));
+    }
       $this->session->sess_destroy();
       redirect('login');
   }

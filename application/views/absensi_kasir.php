@@ -14,7 +14,12 @@
   <!-- Template CSS -->
   <link rel="stylesheet" href="<?= base_url(); ?>assets/css/style.css">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/css/components.css">
-<!-- /END GA --></head>
+  <!-- /END GA -->
+
+  <!-- DATATABLES -->
+  <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>datatables/datatables.min.css"/>
+
+</head>
 
 <body>
   <div id="app">
@@ -36,20 +41,7 @@
         </ul>
       </nav>
       <div class="main-sidebar sidebar-style-2">
-        <aside id="sidebar-wrapper">
-          <div class="sidebar-brand">
-            <a href="index.html">Fremilt</a>
-          </div>
-          <div class="sidebar-brand sidebar-brand-sm">
-          </div>
-          <ul class="sidebar-menu">
-            <li class="menu-header">Menu</li>
-            <li><a class="nav-link" href="<?= base_url('page');?>"><i class="far fa-bell"></i> <span>Dashboard</span></a></li>
-            <li><a class="nav-link" href="<?= base_url('page/manajemen-menu');?>"><i class="far fa-bell"></i> <span>Manajemen Menu</span></a></li>
-            <li><a class="nav-link" href="<?= base_url('page/manajemen-kasir');?>"><i class="far fa-bell"></i> <span>Manajemen Kasir</span></a></li>
-            <li><a class="nav-link" href="<?= base_url('page/absensi-kasir');?>"><i class="far fa-bell"></i> <span>Absensi Kasir</span></a></li>
-          </ul>        
-        </aside>
+        <?php include 'include/sidebar.php';?>
       </div>
 
       <!-- Main Content -->
@@ -62,7 +54,7 @@
           <div class="section-body">
             <h2 class="section-title">Absensi Kasir</h2>
             <p class="section-lead">
-              Silahkan melihat dan meng-ekspor absensi kasir.
+              Anda dapat melihat daftar transaksi.
             </p>
 
             <div class="row">
@@ -70,12 +62,36 @@
                 <div class="card">
                   <div class="card-header">
                     <h4>Absensi Kasir</h4>
-                    <div class="card-header-action">
-                      <a href="#" class="btn active">Download PDF</a>
-                    </div>
                   </div>
                   <div class="card-body">
-                    Absensi Kasir
+                      <table id="example" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>ID Absensi</th>
+                                <th>Nama Kasir</th>
+                                <th>Tanggal Login</th>
+                                <th>Tanggal Logout</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <?php foreach($data as $b) {
+                            echo '<tr>
+                                <td>'.$b->id.'</td>
+                                <td>'.$b->kasir.'</td>
+                                <td>'.$b->login.'</td>
+                                <td>'.$b->logout.'</td>
+                            </tr>';
+                          }?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>ID Absensi</th>
+                                <th>Nama Kasir</th>
+                                <th>Tanggal Login</th>
+                                <th>Tanggal Logout</th>
+                            </tr>
+                        </tfoot>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -96,6 +112,19 @@
 
   <!-- General JS Scripts -->
   <script src="<?= base_url(); ?>assets/modules/jquery.min.js"></script>
+    <!-- ALERT DELETE -->
+  <script type="text/javascript">
+    var url = "<?php echo base_url();?>";
+    function delete_kasir(id){
+      var r=confirm("Apakah anda yakin ingin menghapus data ini?");
+        if (r==true){
+          window.location = url+"page/delete_kasir/"+id;
+        } else {
+          return false;
+        } 
+      }
+  </script>
+  <script type="text/javascript" src="<?= base_url(); ?>datatables/datatables.min.js"></script>
   <script src="<?= base_url(); ?>assets/modules/popper.js"></script>
   <script src="<?= base_url(); ?>assets/modules/tooltip.js"></script>
   <script src="<?= base_url(); ?>assets/modules/bootstrap/js/bootstrap.min.js"></script>
@@ -104,9 +133,13 @@
   <script src="<?= base_url(); ?>assets/js/stisla.js"></script>
   <script src="<?= base_url(); ?>assets/modules/jquery.sparkline.min.js"></script>
   <script src="<?= base_url(); ?>assets/modules/chart.min.js"></script>
-
-    <!-- Page Specific JS File -->
-  <script src="<?= base_url(); ?>assets/js/page/components-statistic.js"></script>
+  
+  <!-- CUSTOM DATATABLE -->
+  <script>
+    $(document).ready(function() {
+      $('#example').DataTable();
+    } );
+  </script>
   
   <!-- Template JS File -->
   <script src="<?= base_url(); ?>assets/js/scripts.js"></script>

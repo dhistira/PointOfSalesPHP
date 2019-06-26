@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Manajemen Kasir - <?= $this->session->userdata('tipe') == 1 ? 'Admin' : 'Kasir'; ?> Fremilt</title>
+  <title>Dashboard - <?= $this->session->userdata('tipe') == 1 ? 'Admin' : 'Kasir'; ?> Fremilt</title>
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="<?= base_url(); ?>assets/modules/bootstrap/css/bootstrap.min.css">
@@ -48,23 +48,20 @@
       <div class="main-content">
         <section class="section">
           <div class="section-header">
-            <h1>Manajemen Kasir</h1>
+            <h1>Dashboard</h1>
           </div>
 
           <div class="section-body">
-            <h2 class="section-title">Manajemen Kasir</h2>
+            <h2 class="section-title">Dashboard</h2>
             <p class="section-lead">
-              Silahkan menambahkan, mengedit, atau menghapus daftar menu.
+              Semangat bekerja!
             </p>
 
             <div class="row">
-              <div class="col-12">
+              <div class="col-8">
                 <div class="card">
                   <div class="card-header">
-                    <h4>Manajemen Kasir</h4>
-                    <div class="card-header-action">
-                      <a href="<?= base_url(); ?>page/tambah_kasir" class="btn active">Tambah Kasir</a>
-                    </div>
+                    <h4>Daftar Menu</h4>
                   </div>
                   <div class="card-body">
                     <?php if(isset($_GET['s'])){
@@ -75,13 +72,19 @@
                       } else if ($_GET['s'] == 'false'){
                       echo '<div class="alert alert-danger">Oops! Terjadi Kesalahan</div>';
                       }}?>
+                      <?php if(isset($_GET['t'])){
+                      if($_GET['t'] == 'true'){
+                      echo '<div class="alert alert-success">Berhasil! Transaksi Sukses</div>';
+                      } else if ($_GET['t'] == 'false'){
+                      echo '<div class="alert alert-danger">Oops! Terjadi Kesalahan</div>';
+                      }}?>
                       <table id="example" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
-                                <th>ID Kasir</th>
-                                <th>Nama Kasir</th>
-                                <th>Username</th>
-                                <th>Tanggal Bergabung</th>
+                                <th>ID Item</th>
+                                <th>Nama Item</th>
+                                <th>Detail item</th>
+                                <th>Harga item</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -89,10 +92,10 @@
                           <?php foreach($data as $b) {
                             echo '<tr>
                                 <td>'.$b->id.'</td>
-                                <td>'.$b->fullname.'</td>
-                                <td>'.$b->username.'</td>
-                                <td>'.$b->date_created.'</td>
-                                <td><a href="'.base_url().'page/edit_kasir/'.$b->id.'">Edit</a> - <a href="#" onclick="delete_kasir('.$b->id.');">Hapus</a></td>
+                                <td>'.$b->nama_item.'</td>
+                                <td>'.$b->detail_item.'</td>
+                                <td>'.$b->harga_item.'</td>
+                                <td><button type="submit" class="btn active" onClick="addtocart('.$b->id.',\''.$b->nama_item.'\',\''.$b->detail_item.'\','.$b->harga_item.')">Masukan ke Pesanan</button></td>
                             </tr>';
                           }?>
                         </tbody>
@@ -109,6 +112,24 @@
                   </div>
                 </div>
               </div>
+              <div class="col-lg-4">
+              <div class="card">
+                <div class="card-header">
+                  <h4>Pesanan</h4>
+                  <div class="card-header-action dropdown" id="button-selesai">
+                  </div>
+                </div>
+                <div class="card-body" id="top-5-scroll">
+                  <ul class="list-unstyled list-unstyled-border" id="cart">
+                  </ul>
+                </div>
+                <div class="card-footer">
+                    <input type="text" placeholder="Masukan Uang Dibayarkan" class="form-control uangtotal"><br>
+                    <h5><b>Total:</b> Rp. <span id="subtotal">0</span><br>
+                    <b>Kembalian:</b> Rp. <span id="kembalian">0</span></h5>
+                </div>
+              </div>
+            </div>
             </div>
           </div>
         </section>
@@ -128,11 +149,56 @@
   <script src="<?= base_url(); ?>assets/modules/jquery.min.js"></script>
     <!-- ALERT DELETE -->
   <script type="text/javascript">
-    var url = "<?php echo base_url();?>";
-    function delete_kasir(id){
-      var r=confirm("Apakah anda yakin ingin menghapus data ini?");
+    function hapusPesanan(){
+      var r=confirm("Apakah anda yakin ingin mengosongkan pesanan?");
         if (r==true){
-          window.location = url+"page/delete_kasir/"+id;
+          var cart = [];
+          localStorage.cart = cart;
+          subtotal = 0;
+          localStorage.subtotal = subtotal;
+          kembalian = 0;
+          localStorage.kembalian = 0;
+          document.getElementById('subtotal').innerHTML = localStorage.subtotal;
+        document.getElementById('cart').innerHTML = "";
+        document.getElementById('button-selesai').innerHTML = "";
+        document.getElementById('kembalian').innerHTML = "0";
+        } else {
+          return false;
+        } 
+      }
+
+    var cart = [];
+    var subtotal = 0;
+    var kembalian = 0;
+
+    function addtocart(id,nama,detail,harga){
+      cart.push(id);
+      localStorage.cart = cart;
+      subtotal = subtotal + harga;
+      localStorage.subtotal = subtotal;
+      document.getElementById('button-selesai').innerHTML = "<button type='submit' class='btn btn-danger' onClick='hapusPesanan()'>Hapus</button><button onClick='pesananSelesai()' type='submit' class='btn active'>Selesai</button>";
+      document.getElementById('subtotal').innerHTML = numberWithCommas(localStorage.subtotal);
+      document.getElementById('cart').innerHTML += "<li class='media'><h3> &nbsp;</h3><div class='media-body'><div class='float-right'><div class='font-weight-600 text-medium'>Rp. "+harga+"</div></div><div class='media-title'>"+nama+"</div><div class='mt-1'>"+detail+"</div></div></li>";
+    }
+
+    $( ".uangtotal" ).keyup(function() {
+        var uangtotal = parseInt($( ".uangtotal" ).val());
+        var kembalian = parseInt(uangtotal - subtotal);
+        localStorage.kembalian = kembalian;
+        document.getElementById('kembalian').innerHTML = numberWithCommas(localStorage.kembalian);
+    });
+
+    function numberWithCommas(x) {
+      var parts = x.toString().split(".");
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return parts.join(".");
+    }
+
+    var url = "<?php echo base_url();?>";
+    function pesananSelesai(){
+      var r=confirm("Apakah anda yakin ingin menyelesaikan transaksi ini?");
+        if (r==true){
+          window.location = url+"page/kirim_transaksi?cart="+localStorage.cart+"&subtotal="+localStorage.subtotal;
         } else {
           return false;
         } 

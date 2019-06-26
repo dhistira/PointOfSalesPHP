@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Tambah Menu - <?= $this->session->userdata('tipe') == 1 ? 'Admin' : 'Kasir'; ?> Fremilt</title>
+  <title>Manajemen Kasir - <?= $this->session->userdata('tipe') == 1 ? 'Admin' : 'Kasir'; ?> Fremilt</title>
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="<?= base_url(); ?>assets/modules/bootstrap/css/bootstrap.min.css">
@@ -18,7 +18,6 @@
 
   <!-- DATATABLES -->
   <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>datatables/datatables.min.css"/>
-  <script type="text/javascript" src="<?= base_url(); ?>datatables/datatables.min.js"></script>
 
 </head>
 
@@ -49,43 +48,53 @@
       <div class="main-content">
         <section class="section">
           <div class="section-header">
-            <h1>Tambah Menu</h1>
+            <h1>Manajemen Transaksi</h1>
           </div>
 
           <div class="section-body">
-            <h2 class="section-title">Tambah Menu</h2>
+            <h2 class="section-title">Manajemen Transaksi</h2>
             <p class="section-lead">
-              Silahkan menambahkan, mengedit, atau menghapus daftar menu.
+              Anda dapat melihat daftar transaksi.
             </p>
 
             <div class="row">
-              <div class="col-6">
+              <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>Tambah Menu</h4>
-                    <div class="card-header-action">
-                      <a href="<?= base_url(); ?>page/manajemen-menu" class="btn active">Kembali</a>
-                    </div>
+                    <h4>Manajemen Transaksi</h4>
                   </div>
                   <div class="card-body">
-                    <?= isset($_GET['s']) == 'false' ? '<div class="alert alert-danger">Oops! Terjadi error!</div>' : '';?>
-                    <form method="post" action="<?= base_url(); ?>page/action_tambah_menu">
-                      <div class="form-group">
-                        <label>Nama Item</label>
-                        <input type="text" name="namaitem" placeholder="Max 24 Karakter" class="form-control">
-                      </div>
-                      <div class="form-group">
-                        <label>Detail Item (64 karakter)</label>
-                        <input type="text" name="detailitem" placeholder="Max 64 Karakter" class="form-control">
-                      </div>
-                      <div class="form-group">
-                        <label>Harga Item</label>
-                        <input type="text" name="hargaitem" placeholder="Misal: 50000" class="form-control">
-                      </div>
-                      <div class="form-group">
-                        <button type="submit" style="float:right" class="btn btn-danger">Kirim</button>
-                      </div>
-                    </form>
+                      <table id="example" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>ID Transaksi</th>
+                                <th>Nama Kasir</th>
+                                <th>Tanggal</th>
+                                <th>ID ITEM</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <?php foreach($data as $b) {
+                            echo '<tr>
+                                <td>'.$b->id.'</td>
+                                <td>'.$b->namakasir.'</td>
+                                <td>'.$b->tanggal.'</td>
+                                <td>'.$b->item.'</td>
+                                <td>'.$b->total.'</td>
+                            </tr>';
+                          }?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>ID Transaksi</th>
+                                <th>Nama Kasir</th>
+                                <th>Tanggal</th>
+                                <th>ID ITEM</th>
+                                <th>Total</th>
+                            </tr>
+                        </tfoot>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -106,6 +115,19 @@
 
   <!-- General JS Scripts -->
   <script src="<?= base_url(); ?>assets/modules/jquery.min.js"></script>
+    <!-- ALERT DELETE -->
+  <script type="text/javascript">
+    var url = "<?php echo base_url();?>";
+    function delete_kasir(id){
+      var r=confirm("Apakah anda yakin ingin menghapus data ini?");
+        if (r==true){
+          window.location = url+"page/delete_kasir/"+id;
+        } else {
+          return false;
+        } 
+      }
+  </script>
+  <script type="text/javascript" src="<?= base_url(); ?>datatables/datatables.min.js"></script>
   <script src="<?= base_url(); ?>assets/modules/popper.js"></script>
   <script src="<?= base_url(); ?>assets/modules/tooltip.js"></script>
   <script src="<?= base_url(); ?>assets/modules/bootstrap/js/bootstrap.min.js"></script>
@@ -114,9 +136,13 @@
   <script src="<?= base_url(); ?>assets/js/stisla.js"></script>
   <script src="<?= base_url(); ?>assets/modules/jquery.sparkline.min.js"></script>
   <script src="<?= base_url(); ?>assets/modules/chart.min.js"></script>
-
-    <!-- Page Specific JS File -->
-  <script src="<?= base_url(); ?>assets/js/page/components-statistic.js"></script>
+  
+  <!-- CUSTOM DATATABLE -->
+  <script>
+    $(document).ready(function() {
+      $('#example').DataTable();
+    } );
+  </script>
   
   <!-- Template JS File -->
   <script src="<?= base_url(); ?>assets/js/scripts.js"></script>

@@ -53,6 +53,7 @@ $route['default_controller'] = 'login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['page/manajemen-menu'] = 'page/manajemen_menu';
+$route['page/manajemen-transaksi'] = 'page/manajemen_transaksi';
 $route['page/manajemen-kasir'] = 'page/manajemen_kasir';
 $route['page/absensi-kasir'] = 'page/absensi_kasir';
 $route['page/tambah-menu'] = 'page/tambah_menu';
