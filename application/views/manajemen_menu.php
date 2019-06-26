@@ -80,7 +80,14 @@
                     </div>
                   </div>
                   <div class="card-body">
-                    <?= isset($_GET['s']) == 'true' ? '<div class="alert alert-success">Berhasil! Data berhasil ditambah</div>' : '';?>
+                    <?php if(isset($_GET['s'])){
+                      if($_GET['s'] == 'true'){
+                      echo '<div class="alert alert-success">Berhasil! Data berhasil diupdate</div>';
+                      } else if ($_GET['s'] == 'notfound'){
+                      echo '<div class="alert alert-danger">Data Tidak Ditemukan!</div>';
+                      } else if ($_GET['s'] == 'false'){
+                      echo '<div class="alert alert-danger">Oops! Terjadi Kesalahan</div>';
+                      }}?>
                       <table id="example" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
@@ -98,7 +105,7 @@
                                 <td>'.$b->nama_item.'</td>
                                 <td>'.$b->detail_item.'</td>
                                 <td>'.$b->harga_item.'</td>
-                                <td><a href="'.base_url().'page/edit/'.$b->id.'">Edit</a> - <a href="'.base_url().'page/delete/'.$b->id.'">Hapus</a></td>
+                                <td><a href="'.base_url().'page/edit_menu/'.$b->id.'">Edit</a> - <a href="#" onclick="delete_menu('.$b->id.');">Hapus</a></td>
                             </tr>';
                           }?>
                         </tbody>
@@ -132,6 +139,18 @@
 
   <!-- General JS Scripts -->
   <script src="<?= base_url(); ?>assets/modules/jquery.min.js"></script>
+    <!-- ALERT DELETE -->
+  <script type="text/javascript">
+    var url = "<?php echo base_url();?>";
+    function delete_menu(id){
+      var r=confirm("Apakah anda yakin ingin menghapus data ini?");
+        if (r==true){
+          window.location = url+"page/delete_menu/"+id;
+        } else {
+          return false;
+        } 
+      }
+  </script>
   <script type="text/javascript" src="<?= base_url(); ?>datatables/datatables.min.js"></script>
   <script src="<?= base_url(); ?>assets/modules/popper.js"></script>
   <script src="<?= base_url(); ?>assets/modules/tooltip.js"></script>

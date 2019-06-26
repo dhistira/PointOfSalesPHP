@@ -15,4 +15,32 @@ class Login_model extends CI_Model{
   	return $this->db->get();
   }
 
+  function checkMenuExist($id){
+  	$this->db->select('*');
+  	$this->db->from('menu');
+  	$this->db->where('id',$id);
+  	$a = $this->db->get();
+  	if($a->num_rows() >= 1){
+  		return true;
+  	} else {
+  		return false;
+  	}
+  }
+
+  function getSingleItem($id){
+  	$this->db->select('*');
+  	$this->db->from('menu');
+  	$this->db->where('id',$id);
+  	$a = $this->db->get();
+  	return $a;
+  }
+
+  function deleteMenuItem($id){
+  	if($this->db->delete('menu', array('id' => $id))){
+  	  	return true;
+  	} else {
+  		return false;
+  	}
+  }
+
 }
