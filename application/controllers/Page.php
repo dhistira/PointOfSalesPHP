@@ -5,7 +5,14 @@ class Page extends CI_Controller{
     if($this->session->userdata('logged_in') !== TRUE){
       redirect('login');
     }
+    $this->load->model('Login_model');
   }
+
+  ////////////////////////////////////////
+  ////                                ////
+  ////           DASHBOARD            ////
+  ////                                ////
+  ////////////////////////////////////////
 
   function index(){
       if($this->session->userdata('tipe')==='1'){
@@ -16,27 +23,18 @@ class Page extends CI_Controller{
 
   }
 
+  ////////////////////////////////////////
+  ////                                ////
+  ////             MENU               ////
+  ////                                ////
+  ////////////////////////////////////////
+
   function manajemen_menu(){
       if($this->session->userdata('tipe')==='1'){
-          $this->load->view('manajemen_menu');
-      }else{
-          echo "Access Denied";
-      }
 
-  }
-
-  function manajemen_kasir(){
-      if($this->session->userdata('tipe')==='1'){
-          $this->load->view('manajemen_kasir');
-      }else{
-          echo "Access Denied";
-      }
-
-  }
-
-  function absensi_kasir(){
-      if($this->session->userdata('tipe')==='1'){
-          $this->load->view('absensi_kasir');
+          $a = array(
+            'data' => $this->Login_model->getMenu()->result());
+          $this->load->view('manajemen_menu', $a);
       }else{
           echo "Access Denied";
       }
@@ -68,6 +66,37 @@ class Page extends CI_Controller{
         redirect(base_url().'page/tambah_menu?s=false');
       }
     }
+  }
+
+  ////////////////////////////////////////
+  ////                                ////
+  ////             KASIR              ////
+  ////                                ////
+  ////////////////////////////////////////
+
+  function manajemen_kasir(){
+      if($this->session->userdata('tipe')==='1'){
+          $this->load->view('manajemen_kasir');
+      }else{
+          echo "Access Denied";
+      }
+
+  }
+
+
+  ////////////////////////////////////////
+  ////                                ////
+  ////         ABSENSI KASIR          ////
+  ////                                ////
+  ////////////////////////////////////////
+
+  function absensi_kasir(){
+      if($this->session->userdata('tipe')==='1'){
+          $this->load->view('absensi_kasir');
+      }else{
+          echo "Access Denied";
+      }
+
   }
 
 }

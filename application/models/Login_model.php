@@ -8,4 +8,11 @@ class Login_model extends CI_Model{
     return $result;
   }
 
+  function getMenu(){
+  	$this->db->select('*');
+  	$this->db->from('menu');
+  	$this->db->order_by('id','asc');
+  	return $this->db->get();
+  }
+
 }
