@@ -52,10 +52,9 @@ class Login extends CI_Controller{
   }
 
   function logout(){
-    if($this->session->userdata('tipe') == '2'){
+    if($this->session->userdata('tipe') === '2'){
       $this->db->where(array(
-        'id' => $this->session->userdata('id'),
-        'date_logout' => NULL));
+        'id_user' => $this->session->userdata('id')));
       $this->db->update('user_log',
           array(
             'date_logout' => date("Y-m-d h:i:s")
