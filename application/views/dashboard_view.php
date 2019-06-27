@@ -56,25 +56,13 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>Grafik Penjualan</h4>
-                    <div class="card-header-action">
-                      <a href="#hari-ini" data-tab="summary-tab" class="btn active">Hari Ini</a>
-                      <a href="#bulan-ini" data-tab="summary-tab" class="btn">Bulan Ini</a>
-                    </div>
+                    <h4>Data Transaksi</h4>
                   </div>
                   <div class="card-body">
                     Tanggal: <?= date("Y-m-d H:i:s"); ?><br>
-                    Terjual Hari Ini: 530 Item<br>
-                    Terjual Bulan Ini: 10.123 Item
-                    <hr>
-                    <div class="summary">
-                      <div data-tab-group="summary-tab" id="hari-ini" class="active">
-                        <canvas id="chart-hari" height="50"></canvas>
-                      </div>
-                      <div data-tab-group="summary-tab" id="bulan-ini">
-                        <canvas id="chart-bulan" height="50"></canvas>
-                      </div>
-                    </div>
+                    Transaksi Hari Ini: <?= $transaksi_today; ?><br>
+                    Transaksi Kemarin: <?= $transaksi_yesterday; ?><br>
+                    Transaksi Bulan Ini: <?= $transaksi_thismonth; ?>
                   </div>
                 </div>
               </div>

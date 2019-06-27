@@ -108,6 +108,25 @@ class Login_model extends CI_Model{
     return $a;
   }
 
+  function getTransaksiToday(){
+    $a = $this->db->query("SELECT * FROM transaksi WHERE tanggal_transaksi LIKE '%".date("Y-m-d")."%'");
+    $a = $a->num_rows();
+    return $a;
+  }
+
+  function getTransaksiYesterday(){
+    $a = $this->db->query("SELECT * FROM transaksi WHERE tanggal_transaksi LIKE '%".date("Y-m-d", strtotime("-1 day"))."%'");
+    $a = $a->num_rows();
+    return $a;
+  }
+
+  function getTransaksiThisMonth(){
+    $a = $this->db->query("SELECT * FROM transaksi WHERE tanggal_transaksi LIKE '%".date("Y-m")."%'");
+    $a = $a->num_rows();
+    return $a;
+  }
+
+
   ////////////////////////////////////////
   ////                                ////
   ////        ABSENSI KASIR           ////

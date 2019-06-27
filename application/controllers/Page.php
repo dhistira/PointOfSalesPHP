@@ -16,10 +16,16 @@ class Page extends CI_Controller{
 
   function index(){
       if($this->session->userdata('tipe')==='1'){
-          $this->load->view('dashboard_view');
+        $a = array(
+            'data' => $this->Login_model->getMenu()->result(),
+            'transaksi_today' => $this->Login_model->getTransaksiToday(),
+            'transaksi_yesterday' => $this->Login_model->getTransaksiYesterday(),
+            'transaksi_thismonth' => $this->Login_model->getTransaksiThisMonth());
+          $this->load->view('dashboard_view',$a);
       }else if($this->session->userdata('tipe')==='2'){
           $a = array(
-            'data' => $this->Login_model->getMenu()->result());
+            'data' => $this->Login_model->getMenu()->result(),
+            'transaksi_today' => $this->Login_model->transaksiToday());
           $this->load->view('dashboard_kasir', $a);
       } else {
         echo "Access Denied";
